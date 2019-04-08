@@ -37,7 +37,7 @@ def creat_win_sum_data(CZ, winter_index, summer_index):
     for ind in summer_index:
         X += list(CZ[ind-1])
     Y += [1 for i in range(len(X)-n)]
-    return X, Y
+    return np.array(X), Y
 
 def plot_confusion_matrix(cm, classes=['winter', 'summer'],
                           title='Confusion matrix',
