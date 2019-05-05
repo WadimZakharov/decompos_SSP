@@ -26,16 +26,34 @@ def plot_ssp(cz, cz_reduced, zs, name):
     plt.xlabel('Скорость')
     plt.title(name)
     plt.show()
+    
 
-def creat_win_sum_data(CZ, winter_index, summer_index):
+    
+    
+def creat_data_month(CZ, N='all'):
+    X, Y = [], []
+    i = 0
+    for cz in CZ:
+        if N=='all':
+            N=len(cz)
+        X += list(cz)[:N]
+        Y += [i]*N
+        i += 1
+    return np.array(X), np.array(Y)
+
+def creat_win_sum_data(CZ, winter_index, summer_index, N='all'):
     X, Y = [], []
     for ind in winter_index:
-        X += list(CZ[ind-1])
+        if N=='all':
+            N=len(CZ[ind-1])
+        X += list(CZ[ind-1])[:N]
     n = len(X)
     Y += [0 for i in range(n)]
     
     for ind in summer_index:
-        X += list(CZ[ind-1])
+        if N=='all':
+            N=len(CZ[ind-1])
+        X += list(CZ[ind-1])[:N]
     Y += [1 for i in range(len(X)-n)]
     return np.array(X), Y
 
