@@ -32,7 +32,7 @@ def plot_ssp(cz, cz_reduced, zs, name):
     
 def creat_data_month(CZ, N='all'):
     X, Y = [], []
-    i = 0
+    i = 1
     for cz in CZ:
         if N=='all':
             N=len(cz)
