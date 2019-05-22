@@ -60,7 +60,7 @@ def researcher_ksvd(CLF, X_train, Y_train, X_test, Y_test, k=2, n_comp=[3,5,7,10
     return scores
 
 
-def researcher_ae(CLF, X_train, Y_train, X_test, Y_test, n_units=[3,5,7,10], **kwargs):
+def researcher_ae(CLF, X_train, Y_train, X_test, Y_test, n_units=[3,5,7,10],epochs=750, **kwargs):
     scores = []
     scaler = StandardScaler()
     X_train_std = scaler.fit_transform(X_train)
@@ -69,7 +69,7 @@ def researcher_ae(CLF, X_train, Y_train, X_test, Y_test, n_units=[3,5,7,10], **k
     for n in n_units:
         autoencoder_std, encoder_std = AEncoder(N_cord, n)
         autoencoder_std.fit(X_train_std, X_train_std,
-                epochs=750,
+                epochs=epochs,
                 batch_size=64,
                 shuffle=True, verbose=0)
           
