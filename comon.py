@@ -5,6 +5,7 @@ from sklearn.metrics import mean_squared_error, accuracy_score, confusion_matrix
 from sklearn.decomposition import PCA
 from keras.models import Model
 from keras.layers import Input, Dense, Dropout
+from sklearn.cluster import KMeans
 from ksvd import ApproximateKSVD
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
@@ -37,6 +38,32 @@ def researcher_pca(CLF,X_train, Y_train, X_test, Y_test, n_comp=[3,5,7,10], **kw
         pipe = Pipeline([('dec', dec), ('clf', clf)])
         pipe.fit(X_train, Y_train)
         predict = pipe.predict(X_test)
+        score = accuracy_score(Y_test, predict)
+        scores.append(score)
+    return scores
+
+
+def researcher_kmeans(CLF,X_train, Y_train, X_test, Y_test, n_comp=[3,5,7,10], **kwargs):
+    scores = []
+    for n in n_comp:
+        kmeans = KMeans(n_clusters = n)
+        kmeans.fit(X_train)
+        
+        test_red = np.zeros((len(X_test), n))
+        train_red = np.zeros((len(X_train), n))
+
+        centers_test=kmeans.predict(X_test)
+        centers_train=kmeans.predict(X_train)
+        
+        for i in range(len(X_train)):
+            train_red[i,centers_train[i]]=1
+        
+        for i in range(len(X_test)):
+            test_red[i,centers_test[i]]=1
+        
+        clf = CLF(**kwargs)
+        clf.fit(train_red, Y_train)
+        predict = clf.predict(test_red)
         score = accuracy_score(Y_test, predict)
         scores.append(score)
     return scores
