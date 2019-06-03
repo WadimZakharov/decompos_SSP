@@ -17,9 +17,9 @@ def AEncoder(input_dim, latent_dim):
     inp_layar1 = Dense(hidden_layer, activation='softplus',kernel_initializer='he_normal')(inputs)
     #np_layar1 = Dropout(0.1)(inp_layar1)
     
-    encoded = Dense(latent_dim, activation='softplus', kernel_initializer='he_normal')(inp_layar1)
+    encoded = Dense(hidden_layer,activation='linear', kernel_initializer='he_normal')(inp_layar1)
     
-    dec_lay = Dense(hidden_layer,activation='linear', kernel_initializer='he_normal')(encoded)
+    dec_lay = Dense(latent_dim, activation='softplus', kernel_initializer='he_normal')(encoded)
     #dec_lay = Dropout(0.1)(dec_lay)
     decoded = Dense(input_dim,activation='linear', kernel_initializer='he_normal')(dec_lay)
     
